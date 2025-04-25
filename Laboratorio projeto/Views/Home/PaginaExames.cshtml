@@ -1,0 +1,169 @@
+﻿@model Laboratorio_projeto.Models.PessoasExames
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f9fafb;
+    }
+
+    .navbar-modern {
+        background: linear-gradient(to right, #007cf0, #00dfd8);
+        color: white;
+    }
+
+    .navbar-shadow {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+    }
+
+        .form-control:focus {
+            border-color: #007cf0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 124, 240, 0.25);
+        }
+
+    button.btn {
+        border-radius: 0.4rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007cf0, #00dfd8);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+    .btn-danger {
+        background-color: #f44336;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+
+    h1 {
+        font-weight: 600;
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .lead {
+        margin-bottom: 2rem;
+    }
+
+    .alert {
+        margin-top: 1rem;
+    }
+
+    select[multiple] {
+        min-height: 150px;
+    }
+
+</style>
+
+<div class="container">
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Mensagem"]</div>
+    }
+
+    @if (TempData["Mensagem2"] != null)
+    {
+        <div class="alert alert-success">@TempData["Mensagem2"]</div>
+    }
+
+    @if (TempData["Mensagem3"] != null)
+    {
+        <div class="alert alert-success">@TempData["Mensagem3"]</div>
+    }
+</div>
+
+<div class="container text-center mb-5">
+    <h1 class="display-4 text-primary">Ticom Lab</h1>
+    <p class="lead text-muted">Sistema de gerenciamento de exames e pacientes</p>
+
+    <form asp-controller="Home" asp-action="ExamesMarcar" method="post" class="mx-auto" style="max-width: 700px;">
+
+        <div class="form-group">
+            <label class="font-weight-bold">Insira um CPF cadastrado</label>
+            <input maxlength="11" asp-for="CPF" type="text" class="form-control form-control-lg" placeholder="Ex: 123.456.789-00" required />
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Exames a serem realizados</label>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
+                <select id="inputEstado" class="form-control form-control-lg w-75">
+                    <option value="">Escolher...</option>
+                    <option>Hemograma completo (R$75,00)</option>
+                    <option>Glicose de jejum (R$90,00)</option>
+                    <option>US Abdomen Total (R$350,00)</option>
+                    <option>Pcr ultra sensível (R$200,00)</option>
+                    <option>Ecocardiograma Bidimensional (R$490,00)</option>
+                    <option>Colonoscopia (R$2500,00)</option>
+                    <option>Triglicerídeos (R$25,00)</option>
+                    <option>Us Doppler Tireoide (R$400,00)</option>
+                </select>
+                <div style="display: flex; gap: 20px;">
+                    <button class="btn btn-primary btn-lg" id="adicionarExame" type="button">Adicionar</button>
+                    <button class="btn btn-danger btn-lg" id="removerExame" type="button">Remover</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Exames selecionados:</label>
+            <select multiple name="Exames" class="form-control form-control-lg" id="exampleFormControlSelect2" asp-for="Exames"></select>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button class="btn btn-primary btn-lg" type="submit">Marcar exame</button>
+            <a asp-controller="Home" asp-action="PaginaUsuarios" class="btn btn-primary btn-lg text-white">Buscar</a>
+        </div>
+    </form>
+</div>
+
+
+<script>
+
+        document.getElementById('removerExame').addEventListener('click', function () {
+        var selectExamesSelecionados = document.getElementById('exampleFormControlSelect2');
+
+        if (selectExamesSelecionados.selectedIndex !== -1) {
+            selectExamesSelecionados.remove(selectExamesSelecionados.selectedIndex);
+        } else {
+            alert("Por favor, selecione um exame para remover.");
+        }
+    });
+
+    document.getElementById('adicionarExame').addEventListener('click', function () {
+        var exameSelecionado = document.getElementById('inputEstado').value;
+        var exameTexto = document.getElementById('inputEstado').options[document.getElementById('inputEstado').selectedIndex].text;
+        var selectExamesSelecionados = document.getElementById('exampleFormControlSelect2');
+
+        if (exameSelecionado !== "") {
+            var option = document.createElement('option');
+            option.text = exameTexto;
+            option.value = exameSelecionado;
+            option.selected = true; 
+            selectExamesSelecionados.add(option);
+
+            document.getElementById('inputEstado').value = "";
+        } else {
+            alert("Por favor, selecione um exame para adicionar.");
+        }
+    });
+</script>

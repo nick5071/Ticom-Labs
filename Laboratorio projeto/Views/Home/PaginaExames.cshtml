@@ -1,4 +1,4 @@
-﻿@model Laboratorio_projeto.Models.PessoasExames
+@model Laboratorio_projeto.Models.PessoasExames
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -71,7 +71,6 @@
     select[multiple] {
         min-height: 150px;
     }
-
 </style>
 
 <div class="container">
@@ -120,7 +119,6 @@
                     <button class="btn btn-primary btn-lg" id="adicionarExame" type="button">Adicionar</button>
                     <button class="btn btn-danger btn-lg" id="removerExame" type="button">Remover</button>
                 </div>
-
             </div>
         </div>
 
@@ -136,10 +134,8 @@
     </form>
 </div>
 
-
 <script>
-
-        document.getElementById('removerExame').addEventListener('click', function () {
+    document.getElementById('removerExame').addEventListener('click', function () {
         var selectExamesSelecionados = document.getElementById('exampleFormControlSelect2');
 
         if (selectExamesSelecionados.selectedIndex !== -1) {
@@ -158,12 +154,20 @@
             var option = document.createElement('option');
             option.text = exameTexto;
             option.value = exameSelecionado;
-            option.selected = true; 
+            option.selected = true;
             selectExamesSelecionados.add(option);
 
             document.getElementById('inputEstado').value = "";
         } else {
             alert("Por favor, selecione um exame para adicionar.");
+        }
+    });
+//Correção
+    document.querySelector('form').addEventListener('submit', function () {
+        var selectExamesSelecionados = document.getElementById('exampleFormControlSelect2');
+
+        for (var i = 0; i < selectExamesSelecionados.options.length; i++) {
+            selectExamesSelecionados.options[i].selected = true;
         }
     });
 </script>

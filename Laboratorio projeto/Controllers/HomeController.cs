@@ -4,6 +4,11 @@ using Laboratorio_projeto.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+
+
 
 namespace Laboratorio_projeto.Controllers
 {
@@ -11,11 +16,13 @@ namespace Laboratorio_projeto.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly Conexao _conexao;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, Conexao conexao)
+        public HomeController(ILogger<HomeController> logger, Conexao conexao, IConfiguration configuration)
         {
             _logger = logger;
             _conexao = conexao;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -73,7 +80,71 @@ namespace Laboratorio_projeto.Controllers
 
             TempData["Mensagem3"] = $"Exames marcados com sucesso!, Para: {pessoas.Nome}, CPF: {pessoas.CPF}, Convênio: {pessoas.Convenio}";
 
+            var accountSid = _configuration["Twilio:AccountSid"];
+            var authToken = _configuration["Twilio:AuthToken"];
+            var fromNumber = _configuration["Twilio:FromNumber"];
+
+            TwilioClient.Init(accountSid, authToken);
+
+            var toNumber = pessoas.Telefone; 
+
+            var messageBody = $"Olá {pessoas.Nome}. Esta é uma confirmação via SMS da TICOM LABS.";
+
+            if (!toNumber.StartsWith("+"))
+            {
+                toNumber = "+55" + toNumber; 
+            }
+
+            var message = MessageResource.Create(
+                to: new PhoneNumber(toNumber),
+                from: new PhoneNumber(fromNumber),
+                body: messageBody
+            );
+
+            TempData["Mensagem4"] = "SMS enviado com sucesso!";
+
             return RedirectToAction("PaginaExames");
+        }
+
+        public IActionResult Editar(string cpf)
+        {
+
+            var Pessoas = _conexao.Pessoas.FirstOrDefault(p => p.CPF == cpf);
+
+            if (Pessoas == null)
+            {
+                TempData["MensagemErro"] = "Usuario não encontrado";
+            }
+
+            return View(Pessoas);
+        }
+
+        [HttpPost]
+        public IActionResult EditarUsuario(string cpf, Pessoas pessoa)
+        {
+            var Pessoas = _conexao.Pessoas.FirstOrDefault(p => p.CPF == cpf);
+
+            if (Pessoas == null)
+            {
+                TempData["Mensagem"] = "Usuario não encontrado";
+            }
+
+            if (pessoa.CPF != Pessoas.CPF)
+            {
+                TempData["Mensagem"] = "Não é permitido editar o CPF";
+            }
+
+            Pessoas.Nome = pessoa.Nome;
+            Pessoas.Telefone = pessoa.Telefone;
+            Pessoas.Convenio = pessoa.Convenio;
+            Pessoas.Plano = pessoa.Plano;
+
+            _conexao.Update(Pessoas);
+            _conexao.SaveChanges();
+
+            TempData["MensagemSalvo"] = "Usuário editado com sucesso!";
+
+            return View("PaginaUsuarios");
         }
 
         [HttpGet]

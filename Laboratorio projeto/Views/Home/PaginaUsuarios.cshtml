@@ -75,10 +75,18 @@
     {
         <div class="alert alert-danger">@TempData["Mensagem"]</div>
     }
+
+    @if (TempData["MensagemSalvo"] != null)
+    {
+        <div class="alert alert-success">@TempData["MensagemSalvo"]</div>
+    }
+
     <form asp-controller="Home" asp-action="Buscar" method="get" class="no-print mt-3 mb-4">
         <div class="form-group">
             <label for="cpfInput">CPF</label>
-            <input maxlength="11" class="form-control" id="cpfInput" placeholder="Insira o CPF" name="cpf" />
+            <input maxlength="11" class="form-control" id="cpfInput" placeholder="Insira o CPF" name="cpf"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
         </div>
         <div class="d-flex gap-3 mt-3">
             <button class="btn btn-primary" type="submit">Buscar</button>
@@ -95,6 +103,7 @@
                         <th>CPF</th>
                         <th>Nome</th>
                         <th>Telefone</th>
+                        <th>Plano</th>
                         <th>Convênio</th>
                         <th>Exames</th>
                         <th class="no-print">Ações</th>
@@ -107,6 +116,7 @@
                             <td>@pessoa.CPF</td>
                             <td>@pessoa.Nome</td>
                             <td>@pessoa.Telefone</td>
+                            <td>@pessoa.Plano</td>
                             <td>@pessoa.Convenio</td>
                             <td>
                                 @if (pessoa.ExamesMarcados != null && pessoa.ExamesMarcados.Any())
@@ -122,10 +132,14 @@
                                 }
                             </td>
                             <td class="no-print">
-                                <form asp-action="Excluir" asp-controller="Home" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
-                                    <input type="hidden" name="cpf" value="@pessoa.CPF" />
-                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                                </form>
+                                <div class="d-flex align-items-center gap-2">
+                                    <form asp-action="Excluir" method="post" class="m-0">
+                                        <input type="hidden" name="cpf" value="@pessoa.CPF" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                    </form>
+
+                                    <a href="@Url.Action("Editar", new { cpf = pessoa.CPF })" class="btn btn-primary btn-sm">Editar</a>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -137,4 +151,7 @@
     {
         <p class="mt-4">Nenhum usuário informado.</p>
     }
+
+
 </div>
+

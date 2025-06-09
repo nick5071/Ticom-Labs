@@ -88,6 +88,12 @@
     {
         <div class="alert alert-success">@TempData["Mensagem3"]</div>
     }
+
+    @if (TempData["Mensagem4"] != null)
+    {
+        <div class="alert alert-success">@TempData["Mensagem4"]</div>
+    }
+
 </div>
 
 <div class="container text-center mb-5">
@@ -162,7 +168,6 @@
             alert("Por favor, selecione um exame para adicionar.");
         }
     });
-//Correção
     document.querySelector('form').addEventListener('submit', function () {
         var selectExamesSelecionados = document.getElementById('exampleFormControlSelect2');
 

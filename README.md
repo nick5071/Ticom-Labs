@@ -30,7 +30,7 @@ Programas Utilizados
 
 • Update-Database (atualizar banco de dados)
 
-# Imporante: Para usar o Twilio você deve se cadastrar no site da Api: https://www.twilio.com/pt-br, e alterar no appsettings.json para seus respectivos dados:
+# Importante: Para usar o Twilio você deve se cadastrar no site da Api: https://www.twilio.com/pt-br, e alterar no appsettings.json para seus respectivos dados:
 
 ```
 "Twilio": {

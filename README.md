@@ -16,7 +16,11 @@
 
 • Twilio API
 
-Banco de dados SQL SERVER
+Programas Utilizados
+
+• Visual Studio
+
+• Sql Server 20
 
 # Importante: Mude o Server do DefaultConnection no appsettings.json, para o nome do servidor de sua máquina
 
@@ -25,12 +29,6 @@ Banco de dados SQL SERVER
 • Add-migration Migrations (Criar banco de dados)
 
 • Update-Database (atualizar banco de dados)
-
-Programas Utilizados
-
-• Visual Studio
-
-• Sql Server 20
 
 # Imporante: Para usar o Twilio você deve se cadastrar no site da Api: https://www.twilio.com/pt-br, e alterar no appsettings.json para seus respectivos dados:
 

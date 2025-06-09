@@ -1,4 +1,4 @@
-# Sistema de gerencimento de Pacientes e Exames para laboratório com envio de SMS usando twilio
+# Sistema de gerencimento de Pacientes e Exames para laboratório com envio de SMS usando Twilio
 
 • Aplicativo Web Crud feito com C# ASP.NET CORE
 
@@ -11,6 +11,8 @@
 • Razor Pages
 
 • Bootstrap
+
+• Twilio
 
 Banco de dados SQL SERVER
 

@@ -1,4 +1,4 @@
-# Sistema de gerencimento de Pacientes e Exames para laboratório
+# Sistema de gerencimento de Pacientes e Exames para laboratório com envio de SMS usando twilio
 
 • Aplicativo Web Crud feito com C# ASP.NET CORE
 

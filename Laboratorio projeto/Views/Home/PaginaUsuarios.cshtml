@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<Laboratorio_projeto.Models.Pessoas>
 
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -29,28 +28,28 @@
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-        .form-control:focus {
-            border-color: #007cf0;
-            box-shadow: 0 0 0 0.2rem rgba(0, 124, 240, 0.25);
-        }
+    .form-control:focus {
+        border-color: #007cf0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 124, 240, 0.25);
+    }
 
     .btn-primary {
         background: linear-gradient(to right, #007cf0, #00dfd8);
         border: none;
     }
 
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
+    .btn-primary:hover {
+        opacity: 0.9;
+    }
 
     .btn-danger {
         background-color: #f44336;
         border: none;
     }
 
-        .btn-danger:hover {
-            opacity: 0.9;
-        }
+    .btn-danger:hover {
+        opacity: 0.9;
+    }
 
     .table thead th {
         background-color: #e8f1fa;
@@ -66,9 +65,8 @@
     .alert {
         margin-top: 1rem;
     }
+
 </style>
-
-
 
 <div class="container">
     @if (TempData["Mensagem"] != null)
@@ -84,9 +82,14 @@
     <form asp-controller="Home" asp-action="Buscar" method="get" class="no-print mt-3 mb-4">
         <div class="form-group">
             <label for="cpfInput">CPF</label>
-            <input maxlength="11" class="form-control" id="cpfInput" placeholder="Insira o CPF" name="cpf"
-                   onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                   oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+            <input type="text"
+                   maxlength="11"
+                   pattern="\d{11}"
+                   inputmode="numeric"
+                   class="form-control"
+                   id="cpfInput"
+                   placeholder="Insira o CPF"
+                   name="cpf" />
         </div>
         <div class="d-flex gap-3 mt-3">
             <button class="btn btn-primary" type="submit">Buscar</button>
@@ -151,7 +154,24 @@
     {
         <p class="mt-4">Nenhum usuário informado.</p>
     }
-
-
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cpfInput = document.getElementById('cpfInput');
+        if (cpfInput) {
+            cpfInput.addEventListener('keydown', function (e) {
+                if (
+                    e.key === "Backspace" || e.key === "Tab" || e.key === "Delete" ||
+                    e.key === "ArrowLeft" || e.key === "ArrowRight"
+                ) {
+                    return;
+                }
+
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>

@@ -126,7 +126,25 @@
         <a asp-controller="Home" asp-action="PaginaUsuarios" class="btn btn-secondary text-white">Voltar</a>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cpfInput = document.getElementById('telefone');
+        if (cpfInput) {
+            cpfInput.addEventListener('keydown', function (e) {
+                if (
+                    e.key === "Backspace" || e.key === "Tab" || e.key === "Delete" ||
+                    e.key === "ArrowLeft" || e.key === "ArrowRight"
+                ) {
+                    return;
+                }
 
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

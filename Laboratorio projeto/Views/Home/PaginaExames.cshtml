@@ -104,7 +104,7 @@
 
         <div class="form-group">
             <label class="font-weight-bold">Insira um CPF cadastrado</label>
-            <input maxlength="11" asp-for="CPF" type="text" class="form-control form-control-lg" placeholder="Ex: 123.456.789-00" required />
+            <input maxlength="11" asp-for="CPF" id="cpfInput2" type="text" class="form-control form-control-lg" placeholder="Ex: 123.456.789-00" required />
         </div>
 
         <div class="form-group">
@@ -173,6 +173,24 @@
 
         for (var i = 0; i < selectExamesSelecionados.options.length; i++) {
             selectExamesSelecionados.options[i].selected = true;
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var cpfInput = document.getElementById('cpfInput2');
+        if (cpfInput) {
+            cpfInput.addEventListener('keydown', function (e) {
+                if (
+                    e.key === "Backspace" || e.key === "Tab" || e.key === "Delete" ||
+                    e.key === "ArrowLeft" || e.key === "ArrowRight"
+                ) {
+                    return;
+                }
+
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
         }
     });
 </script>

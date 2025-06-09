@@ -6,6 +6,8 @@
 
 • .NET 8
 
+• Pacote Nuget
+
 • Entity Framework
 
 • Razor Pages

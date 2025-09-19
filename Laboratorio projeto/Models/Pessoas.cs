@@ -37,7 +37,7 @@ namespace Laboratorio_projeto.Models
                 throw new ApplicationException("O campo Nome é obrigatório");
 
             if (string.IsNullOrEmpty(CPF)|| CPF.Length != 11)
-                throw new ApplicationException("O campo Nome é obrigatório");
+                throw new ApplicationException("O campo CPF é obrigatório");
 
             if (string.IsNullOrEmpty(Telefone)|| Telefone.Length != 11)
                 throw new ApplicationException("O campo Telefone é obrigatório");
